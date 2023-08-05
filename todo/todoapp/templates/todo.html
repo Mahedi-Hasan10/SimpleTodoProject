@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="POST" class="w-50 m-auto p-4 bg-primary text-white mt-3">
+    <h3 class="p-2 text-center text-white bolder">Add todo task here</h3>
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" class="btn btn-warning" value="Add">
+</form>
+
+<div class="mt-3 bg-info p-3 text-white">
+    <h3 class="text-center p-2"> See Todo List</h3>
+    <table class="table">
+        
+        <tbody>
+          {% if formdata %}
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th scope="col">Task</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          {% for data in formdata %}
+          <tr>
+            <td>{{data.id}}</td>
+            <td scope="row">{{data.todo_title}}</td>
+            <td>
+                <a class="btn btn-danger" href="{% url 'delete' data.id %}">delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+            {% else %}
+            <h3>No task available</h3>
+          {% endif %}
+        </tbody>
+      </table>
+</div>
+{% endblock content %}
+
